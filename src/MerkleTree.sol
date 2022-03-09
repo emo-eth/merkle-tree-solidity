@@ -10,8 +10,7 @@ contract MerkleTree {
     bool immutable sortPairs;
     bytes[] public leaves;
     bytes[][] public layers;
-
-    // bytes internal _randomGarbage = keccak256("random garbage");
+    bytes[] internal _proof;
 
     function getLayers() public view returns (bytes[][] memory) {
         return layers;
@@ -39,8 +38,6 @@ contract MerkleTree {
         }
         return layers[layers.length - 1][0];
     }
-
-    bytes[] internal _proof;
 
     function getProof(bytes memory _leaf) public returns (bytes[] memory) {
         int256 index = indexOf(leaves, _leaf);
