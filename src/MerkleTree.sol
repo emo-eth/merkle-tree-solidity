@@ -93,8 +93,6 @@ contract MerkleTree {
     }
 
     function processLeaves(bytes[] memory _leaves) internal {
-        layers = new bytes[][](0);
-
         if (hashLeaves) {
             for (uint256 i = 0; i < _leaves.length; i++) {
                 _leaves[i] = abi.encode(keccak256(_leaves[i]));
