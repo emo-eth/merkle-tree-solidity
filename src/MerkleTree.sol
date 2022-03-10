@@ -3,10 +3,9 @@ pragma solidity >=0.8.4;
 
 import {Sort} from "./utils/Sort.sol";
 import {SortBytes} from "./utils/SortBytes.sol";
-import {DSTestPlus} from "sm/test/utils/DSTestPlus.sol";
 import {Compare} from "./utils/Compare.sol";
 
-contract MerkleTree is DSTestPlus {
+contract MerkleTree {
     bytes32[] public leaves;
     bytes32[][] public layers;
     bytes32[] internal _proof;
