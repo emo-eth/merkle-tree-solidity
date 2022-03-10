@@ -19,7 +19,7 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
         assertEq(
             bytes32(test.getRoot()),
             bytes32(
@@ -46,9 +46,46 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
 
         bytes32[] memory proof = test.getProof("j");
+        _arrayEqBytes32(proof, _expectedProof);
+    }
+
+    function testGetRootOddNumberOfLeavesDuplicateOdd() public {
+        bytes32 root = bytes32(
+            0x084da5222f2839261fc864eb796371e6d4c83af1b77680641deab3df9fc15df9
+        );
+        strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
+
+        bytes[] memory leaves = _mapStringToBytes(strings);
+
+        test = new MerkleTree(leaves, true);
+        assertEq(bytes32(test.getRoot()), root);
+    }
+
+    function testGetProofOddNumberOfLeavesDuplicateOdd() public {
+        _expectedProof = [
+            bytes32(
+                0x14bcc435f49d130d189737f9762feb25c44ef5b886bef833e31a702af6be4748
+            ),
+            bytes32(
+                0x7ab1f7ac767c712cdeecedf40b4521c5980057322c2f33fdb8fc39afb2ed2d39
+            ),
+            bytes32(
+                0xdf0bca3920ced4d9e09e14e22ef0c6e27deaf641cae0f24adc50d4e23542f36a
+            ),
+            bytes32(
+                0x0aae5ddb1f42379c9a0ec187f53564b032cfdf919c521a52fc1459529dae4e68
+            )
+        ];
+
+        strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
+
+        bytes[] memory leaves = _mapStringToBytes(strings);
+        test = new MerkleTree(leaves, true);
+
+        bytes32[] memory proof = test.getProof("c");
         _arrayEqBytes32(proof, _expectedProof);
     }
 
@@ -60,7 +97,7 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -82,7 +119,7 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
 
         bytes32[] memory proof = test.getProof("j");
         _arrayEqBytes32(proof, _expectedProof);
@@ -94,7 +131,7 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -103,7 +140,7 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
 
         bytes32[] memory proof = test.getProof("k");
         _arrayEqBytes32(proof, _expectedProof);
@@ -117,7 +154,7 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -130,7 +167,7 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["j", "k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
 
         bytes32[] memory proof = test.getProof("j");
         _arrayEqBytes32(proof, _expectedProof);
@@ -144,7 +181,7 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves);
+        test = new MerkleTree(leaves, false);
         assertEq(bytes32(test.getRoot()), root);
     }
 

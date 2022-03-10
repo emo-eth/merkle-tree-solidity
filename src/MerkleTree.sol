@@ -6,6 +6,7 @@ import {SortBytes} from "./utils/SortBytes.sol";
 import {Compare} from "./utils/Compare.sol";
 
 contract MerkleTree {
+    bool duplicateOdd;
     bytes32[] public leaves;
     bytes32[][] public layers;
     bytes32[] internal _proof;
@@ -18,7 +19,8 @@ contract MerkleTree {
         return leaves;
     }
 
-    constructor(bytes[] memory _leaves) {
+    constructor(bytes[] memory _leaves, bool _duplicateOdd) {
+        duplicateOdd = _duplicateOdd;
         hashAndProcessLeaves(_leaves);
     }
 
@@ -31,7 +33,6 @@ contract MerkleTree {
 
     function getProof(bytes memory _leaf) public returns (bytes32[] memory) {
         int256 index = indexOf(leaves, keccak256(_leaf));
-        emit log_named_int("index", index);
 
         _proof = new bytes32[](0);
         if (index < 0) {
@@ -117,13 +118,13 @@ contract MerkleTree {
             layers.push(new bytes32[](0));
             for (uint256 i; i < nodes.length; i += 2) {
                 if (i + 1 == nodes.length) {
-                    if (nodes.length % 2 == 1) {
+                    if (nodes.length % 2 == 1 && !duplicateOdd) {
                         layers[layerIndex].push(nodes[i]);
                         continue;
                     }
                 }
                 bytes32 left = nodes[i];
-                // this ternary is left over from merkletreejs's duplicateOdd option - in case we want to implement that
+                // when duplicateOdd is true, hash odd leaves with themselves
                 bytes32 right = (i + 1) == nodes.length ? left : nodes[i + 1];
                 // always sort pairs
                 (left, right) = Sort.sortPair(left, right);
