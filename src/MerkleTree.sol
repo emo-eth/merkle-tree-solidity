@@ -11,17 +11,53 @@ contract MerkleTree {
     bytes32[][] public layers;
     bytes32[] internal _proof;
 
+    /**                         
+When duplicateOdd is False, odd nodes are carried upwards in the tree until
+they can be hashed as part of an "even" layer 
+
+duplicateOdd=False
+             ┌──────┐            
+           ┌─┤H12345├─┐          
+           │ └──────┘ │          
+         ┌─┴───┐   ┌──┴─┐        
+       ┌─┤H1234├──┐│ 5  ├ ┐      
+       │ └─────┘  │└────┘        
+    ┌──┴─┐      ┌─┴──┐  ┌ ┴ ─    
+  ┌─┤H12 ├┐   ┌─┤H34 ├┐   5  │   
+  │ └────┘│   │ └────┘│ └ ───    
+┌─┴──┐┌───┴┐ ┌┴───┐┌──┴─┐  ┌└─── 
+│ 1  ││ 2  │ │ 3  ││ 4  │    5  │
+└────┘└────┘ └────┘└────┘  └ ─ ─     
+                                            
+                                            
+When duplicateOdd is True, odd nodes in a layer are hashed with themselves,
+and that result is included in the next layer of the tree  
+
+duplicateOdd=True   
+                   ┌─────────┐              
+               ┌───┤H12345555├──┐           
+               │   └─────────┘  │           
+         ┌─────┤                └┬─────┐    
+       ┌─┤H1234├──┐             ┌┤H5555├┐   
+       │ └─────┘  │             │└─────┘│   
+    ┌──┴─┐      ┌─┴──┐        ┌─┴──┐  ┌ ┴── 
+  ┌─┤H12 ├┐   ┌─┤H34 ├┐     ┌─┤H55 ├┐  H55 │
+  │ └────┘│   │ └────┘│     │ └────┘│ └ ─ ─ 
+┌─┴──┐┌───┴┐ ┌┴───┐┌──┴─┐ ┌─┴──┐┌ ─ ┴       
+│ 1  ││ 2  │ │ 3  ││ 4  │ │ 5  │  5  │      
+└────┘└────┘ └────┘└────┘ └────┘└ ─ ─       
+    */
+    constructor(bytes[] memory _leaves, bool _duplicateOdd) {
+        duplicateOdd = _duplicateOdd;
+        hashAndProcessLeaves(_leaves);
+    }
+
     function getLayers() public view returns (bytes32[][] memory) {
         return layers;
     }
 
     function getLeaves() public view returns (bytes32[] memory) {
         return leaves;
-    }
-
-    constructor(bytes[] memory _leaves, bool _duplicateOdd) {
-        duplicateOdd = _duplicateOdd;
-        hashAndProcessLeaves(_leaves);
     }
 
     function getRoot() public view returns (bytes32) {
