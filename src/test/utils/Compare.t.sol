@@ -2,7 +2,7 @@
 pragma solidity >=0.8.4;
 
 import {Compare} from "../../utils/Compare.sol";
-import {DSTestPlus} from "sm/test/utils/DSTestPlus.sol";
+import {DSTestPlus} from "@rari-capital/solmate/src/test/utils/DSTestPlus.sol"; 
 
 contract TestCompare is DSTestPlus {
     function testCompare() public {

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.4;
 
 import {Sort} from "../../utils/Sort.sol";
-import {DSTestPlus} from "sm/test/utils/DSTestPlus.sol";
+import {DSTestPlus} from "@rari-capital/solmate/src/test/utils/DSTestPlus.sol";
 
 contract TestSort is DSTestPlus {
     uint8[] uint8a;

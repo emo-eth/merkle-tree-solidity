@@ -3,7 +3,7 @@ pragma solidity >=0.8.4;
 
 import {SortBytes} from "../../utils/SortBytes.sol";
 import {Compare} from "../../utils/Compare.sol";
-import {DSTestPlus} from "sm/test/utils/DSTestPlus.sol";
+import {DSTestPlus} from "@rari-capital/solmate/src/test/utils/DSTestPlus.sol";
 
 contract TestSortBytes is DSTestPlus {
     uint8[] uint8a;

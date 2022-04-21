@@ -2,7 +2,7 @@
 pragma solidity >=0.8.4;
 
 import {MerkleTree} from "..//MerkleTree.sol";
-import {DSTestPlus} from "sm/test/utils/DSTestPlus.sol";
+import {DSTestPlus} from "@rari-capital/solmate/src/test/utils/DSTestPlus.sol";
 import {Compare} from "../utils/Compare.sol";
 
 /**
@@ -19,7 +19,8 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
         assertEq(
             bytes32(test.getRoot()),
             bytes32(
@@ -46,9 +47,10 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
 
-        bytes32[] memory proof = test.getProof("j");
+        bytes32[] memory proof = test.getProof(bytes("j"));
         _arrayEqBytes32(proof, _expectedProof);
     }
 
@@ -60,7 +62,8 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves, true);
+        test = new MerkleTree(true, true, true);
+        test.setLeaves(leaves);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -83,9 +86,10 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves, true);
+        test = new MerkleTree(true, true, true);
+        test.setLeaves(leaves);
 
-        bytes32[] memory proof = test.getProof("c");
+        bytes32[] memory proof = test.getProof(bytes("c"));
         _arrayEqBytes32(proof, _expectedProof);
     }
 
@@ -97,7 +101,8 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -119,9 +124,10 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
 
-        bytes32[] memory proof = test.getProof("j");
+        bytes32[] memory proof = test.getProof(bytes("j"));
         _arrayEqBytes32(proof, _expectedProof);
     }
 
@@ -131,7 +137,8 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -140,9 +147,10 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
 
-        bytes32[] memory proof = test.getProof("k");
+        bytes32[] memory proof = test.getProof(bytes("k"));
         _arrayEqBytes32(proof, _expectedProof);
     }
 
@@ -154,7 +162,8 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
         assertEq(bytes32(test.getRoot()), root);
     }
 
@@ -167,9 +176,9 @@ contract TestMerkleTree is DSTestPlus {
         strings = ["j", "k"];
 
         bytes[] memory leaves = _mapStringToBytes(strings);
-        test = new MerkleTree(leaves, false);
-
-        bytes32[] memory proof = test.getProof("j");
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
+        bytes32[] memory proof = test.getProof(bytes("j"));
         _arrayEqBytes32(proof, _expectedProof);
     }
 
@@ -181,7 +190,8 @@ contract TestMerkleTree is DSTestPlus {
 
         bytes[] memory leaves = _mapStringToBytes(strings);
 
-        test = new MerkleTree(leaves, false);
+        test = new MerkleTree(true, true, false);
+        test.setLeaves(leaves);
         assertEq(bytes32(test.getRoot()), root);
     }
 

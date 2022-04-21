@@ -1,2 +1,2 @@
 ds-test/=lib/ds-test/src/
-sm/=lib/solmate/src/
+@rari-capital/solmate/=lib/solmate/
